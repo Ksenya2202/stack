@@ -1,0 +1,43 @@
+class Stack:
+    def __init__(self):
+        self.__items = []
+
+    def is_empty(self):
+        return len(self.__items) == 0
+
+    def push(self, item):
+        self.__items.append(item)
+
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self.__items.pop()
+
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("peek from empty stack")
+        return self.__items[-1]
+
+    def size(self):
+        return len(self.__items)
+
+def is_balanced(brackets: str) -> bool:
+    stack = Stack()
+    matching_brackets = {')': '(', ']': '[', '}': '{'}
+    for char in brackets:
+        if char in "([{":
+            stack.push(char)
+        elif char in ")]}":
+            if stack.is_empty() or stack.peek() != matching_brackets[char]:
+                return False
+            stack.pop()
+
+    return stack.is_empty()
+
+if __name__ == "__main__":
+    input_string = input("введите: ")
+
+    if is_balanced(input_string):
+        print("баланс")
+    else:
+        print("не баланс")
